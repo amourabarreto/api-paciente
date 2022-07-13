@@ -3,22 +3,29 @@ package com.welfare.models;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "TB_PACIENTES")
-public class PacienteModel {
+public class PacienteModel implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
@@ -30,7 +37,7 @@ public class PacienteModel {
     @Column(length = 150)
     private String nomeSocial;
     private String apelido;
-    @Column(length = 9,unique = true)
+    @Column(length = 9)
     private String cpf;
 
     @Column(nullable = false)
@@ -50,7 +57,7 @@ public class PacienteModel {
     @Column(length = 10)
     private String telegoneCelular;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false)
     private String userName;
 
     private Boolean vreBacteria;
@@ -75,7 +82,6 @@ public class PacienteModel {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private CorPeleModel corPeleModel;
-
 
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
